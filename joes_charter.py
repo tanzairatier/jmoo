@@ -1,7 +1,7 @@
 from pylab import *
 import csv
-from jmoo_problems import *
-from jmoo_algorithms import *
+#from jmoo_problems import *
+#from jmoo_algorithms import *
 from jmoo_properties import *
 from utility import *
 
@@ -21,8 +21,8 @@ for p,prob in enumerate(problems):
     RRS.append([])
     RRS_scores.append([])
     for a,alg in enumerate(algorithms):
-        finput = open("data/results_" + prob.name + "_" + alg.name + ".datatable", 'rb')
-        f2input = open(DATA_PREFIX + RRS_TABLE + "_" + prob.name + "_" + alg.name + DATA_SUFFIX, 'rb')
+        finput = open("data/results_" + prob.name + "-p" + str(MU) + "-d"  + str(len(prob.decisions)) + "-o" + str(len(prob.objectives)) + "_" + alg.name + ".datatable", 'rb')
+        f2input = open(DATA_PREFIX + RRS_TABLE + "_" + prob.name + "-p" + str(MU) + "-d"  + str(len(prob.decisions)) + "-o" + str(len(prob.objectives)) + "_" + alg.name + DATA_SUFFIX, 'rb')
         reader = csv.reader(finput, delimiter=',')
         reader2 = csv.reader(f2input, delimiter=',')
         data[p].append( [] )

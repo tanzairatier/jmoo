@@ -61,7 +61,7 @@ def jmoo_evo(problem, algorithm, toStop = bstop):
     # 2) Load Initial Population  #
     # # # # # # # # # # # # # # # #
     population = problem.loadInitialPopulation(MU)
-    
+    print MU
     # # # # # # # # # # # # # # #
     # 3) Collect Initial Stats  #
     # # # # # # # # # # # # # # #

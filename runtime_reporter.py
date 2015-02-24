@@ -27,11 +27,10 @@
 "Brief notes"
 "Just a simple way to find out MOP runtimes"
 
-from jmoo_problems import *
+#from jmoo_problems import *
 from jmoo_properties import *
 import time
 
-problems = ALL_MODELS
 
 runtimes = []
 
@@ -42,8 +41,10 @@ for problem in problems:
         start = time.time()
         problem.evaluate(problem.generateInput())
         end = time.time()
-        runtimes[-1].append(end-start)
+        runtimes[-1].append((end-start)*1000)
     # "(Min, Avg, Med, Max, Var)"
-    print problem.name.ljust(14) + ", " + str("%10.5f" % min(runtimes[-1])) + "," + str("%10.5f" % avg(runtimes[-1])) + "," + str("%10.5f" % getPercentile(runtimes[-1], 50)) + "," + str("%10.5f" % max(runtimes[-1])) + "," + str("%10.5f" % var(runtimes[-1]))
+    # Reporting Milliseconds
+    pname = problem.name + "-d" + str(len(problem.decisions)) + "-o" + str(len(problem.objectives))
+    print pname.ljust(14) + ", " + str("%10.5f" % min(runtimes[-1])) + "," + str("%10.5f" % avg(runtimes[-1])) + "," + str("%10.5f" % getPercentile(runtimes[-1], 50)) + "," + str("%10.5f" % max(runtimes[-1])) + "," + str("%10.5f" % var(runtimes[-1]))
     
     

@@ -63,7 +63,8 @@ class jmoo_stats_box:
     
     def update(statBox, population, gen, numNewEvals, initial = False, printOption=True):
         "add a stat box - compute the statistics first"
-        fa = open("data/results_"+statBox.problem.name+"_"+statBox.alg.name+".datatable", 'a')
+        filename = "data/results_"+statBox.problem.name + "-p" + str(len(population)) + "-d" + str(len(statBox.problem.decisions)) + "-o" + str(len(statBox.problem.objectives))+"_"+statBox.alg.name+".datatable"
+        fa = open(filename, 'a')
         
         # Calculate percentage of violations
         violationsPercent = sum([ 1 for pop in population if statBox.problem.evalConstraints(pop.decisionValues)])/float(len(population))
@@ -118,7 +119,29 @@ class jmoo_stats_box:
 
         # Calculate IBD & IBS
         norms = [[min(fitnessColumns[i]+[statBox.referencePoint[i]]), max(fitnessColumns[i]+[statBox.referencePoint[i]])] for i,obj in enumerate(statBox.problem.objectives)]
-        lossInQualities = [loss_in_quality(statBox.problem, [statBox.referencePoint], fit, norms) for fit in fitnesses]
+        lossInQualities = [{"qual": loss_in_quality(statBox.problem, [statBox.referencePoint], fit, norms), "index": i} for i,fit in enumerate(fitnesses)]
+        
+        lossInQualities.sort(key=lambda(r): r["qual"])
+        if len(fitnesses) > 0: 
+            best_fitness = fitnesses[lossInQualities[0]["index"]]
+        else:
+            best_fitness = fitnessMedians
+        lossInQualities = [item["qual"] for item in lossInQualities]
+        """
+        if len(fitnesses) >0:
+            index = 0
+            best_liq = 10
+            for i,liq in enumerate(lossInQualities):
+                if liq <= best_liq:
+                    best_liq = liq
+                    index = i
+            best_fitness = fitnesses[index]
+        else:
+            best_fitness = fitnessMedians
+            
+        """
+        #best_fitness = [min(fitCol) for fitCol in fitnessColumns if len(fitCol) > 0]
+        
         IBD = median(lossInQualities)
         IBS = spread(lossInQualities)
         
@@ -145,7 +168,7 @@ class jmoo_stats_box:
                 outString += str("%8.4f" % IBD) + "," + percentChange(statBox.referenceIBD, statBox.referenceIBD, True, 0, 1) + "," + str("%8.4f" % IBS)
             else:
                 outString += str(statBox.numEval) + ","
-                for med,spr,initmed,obj,o in zip(fitnessMedians, fitnessSpreads, statBox.referencePoint,statBox.problem.objectives,range(len(statBox.problem.objectives))):
+                for med,spr,initmed,obj,o in zip(best_fitness, fitnessSpreads, statBox.referencePoint,statBox.problem.objectives,range(len(statBox.problem.objectives))):
                     change = percentChange(med, initmed, obj.lismore, obj.low, obj.up)
                     changes.append(float(change.strip("%")))
                     if changes[-1] < statBox.bests[o]: 
@@ -165,7 +188,7 @@ class jmoo_stats_box:
         for i,pop in enumerate(population):
             trunk.append(jmoo_individual(statBox.problem, pop.decisionValues, pop.fitness.fitness))
             #if i < 5: print trunk[-1].decisionValues, statBox.problem.evalConstraints(trunk[-1].decisionValues)
-        statBox.box.append(jmoo_stats(trunk, fitnesses, fitnessMedians, fitnessSpreads, statBox.numEval, gen, IBD, IBS, changes))
+        statBox.box.append(jmoo_stats(trunk, fitnesses, best_fitness, fitnessSpreads, statBox.numEval, gen, IBD, IBS, changes))
         fa.close()
 ###########
 ### Utility Functions

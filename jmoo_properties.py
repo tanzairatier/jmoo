@@ -27,27 +27,71 @@
 "Brief notes"
 "Property File.  Defines default settings."
 
-import jmoo_algorithms as MOEAS
+from jmoo_algorithms import *
 from jmoo_problems import *
+cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe()))[0],"Problems/tera")))
+if cmd_subfolder not in sys.path:
+    sys.path.insert(0, cmd_subfolder)
+from tera_datasets import *
 
 
 # JMOO Experimental Definitions
 algorithms = [
               
-              #MOEAS.jmoo_NSGAII(),
-              MOEAS.jmoo_GALE(), 
-              #MOEAS.jmoo_SPEA2()
+              jmoo_NSGAII(),
+              jmoo_GALE(),
+              jmoo_SPEA2()
               
               ]
+"""
+problems =[ivy14(), ivy20(), jedit40(), jedit41(), jedit42(), jedit43(), 
+           lucene22(), lucene24(), poi20(), poi25(), poi30(),
+           synapse11(), synapse12(), velocity15(), velocity16(),
+           xalan25(), xalan26(), xalan27()]  
+"""
+#problems = [jedit42(), jedit43(), lucene22(), lucene24()]
+#problems = [poi20(), poi25(), poi30(), synapse11()]
+#problems = [synapse12(), velocity15(), velocity16(), xalan25()]
+#problems = [xalan26(), xalan27(), xalan27(), xalan27()]
+problems = [ant14()]
 
-problems = [
-            
-            fonseca(3)
-            #POM3B()
-            #POM3A(), POM3B(), POM3C()#, POM3D()
-            #srinivas(), zdt1(), osyczka2(), viennet2(), tanaka(), schaffer(), golinski(), POM3A(), POM3B(), POM3C(), POM3D()
-            
-            ]
+
+[ant14(), ant15(), ant16(), ant17(),
+camel12(), camel14(), camel16(),
+forrest07(), forrest08(),
+ivy14(), ivy20(),
+jedit40(), jedit41(), jedit42(), jedit43(),
+lucene22(), lucene24(),
+poi20(), poi25(), poi30(),
+synapse11(), synapse12(),
+velocity15(), velocity16(),
+xalan25(), xalan26(), xalan27(),
+xerces12(), xerces13(), xerces14()]
+    
+#[POM3A(), POM3B(), POM3C(), XOMO_flight(), XOMO_osp2(), XOMO_ground(), srinivas(), schaffer(), osyczka2(), water(), bnh(), twobartruss(), viennet2(), dtlz2(5,20)]
+"""
+A0_test(), A001_test(),
+scale_test_similar(), scale_test_dissimilar(),
+deceptive1_test(), deceptive2_test(),
+bias_test(),
+dtlz1(5,2), dtlz1(5, 4),
+dtlz2(10,2), dtlz2(10, 4),
+dtlz3(10,2), dtlz3(10, 4),
+dtlz4(10,2), dtlz4(10, 4),
+dtlz5(10,2), dtlz5(10, 4),
+dtlz6(20,2), dtlz6(20, 4),
+XOMO_flight(), XOMO_ground(), XOMO_osp(), XOMO_osp2(), XOMO_all(),
+bnh(), schaffer(), constrex(), golinski(), osyczka2(), srinivas(), tanaka(), twobartruss(),
+viennet2(), viennet3(), viennet4(), zdt1(), zdt2(), zdt3(), zdt4(), zdt6(), poloni(), kursawe(3), fonseca(3), water(),
+#sbnh(), twobartruss(), osyczka2(), srinivas(), tanaka(), water(),constrex(),
+#golinski(), osyczka2(), srinivas(), zdt1(), tanaka(), schaffer(), poloni(), kursawe(3), fonseca(3)
+POM3A(), POM3B(), POM3C()
+#schaffer()
+
+]
+"""
+
+
 build_new_pop = False                                       # Whether or not to rebuild the initial population
 
 

@@ -209,6 +209,20 @@ def loss(x1, x2, mins=None, maxs=None):
     o = min(len(x1), len(x2)) #len of x1 and x2 should be equal 
     return sum([math.exp((x2i - x1i)/o) for x1i, x2i in zip(x1,x2)])/o
 
+
+def loss2(x1, pop, mins=None, maxs=None, weights=None):  # removal of pop-x1 vs pop
+    
+    k = len(weights)
+    norms = [(min,max) for min,max in zip(mins, maxs)]
+    # Calculate the loss in quality of removing fit1 from the population
+    F = []
+    for X2 in pop:
+        if not X2[0] == '?':
+            F.append(-k/(sum([-math.exp(-w*(normalize(p2,n[0],n[1]) - normalize(p1,n[0],n[1]))/k) for w,p1,p2,n in zip(weights,x1,  X2,        norms)])))
+    F1 = sum(F)
+    return F1
+    
+    
 def cdom(x1, x2, mins=None, maxs=None):
     return loss(x1,x2, mins, maxs) / loss(x2,x1, mins, maxs)
 

@@ -86,9 +86,10 @@ class JMOO:
                 backend = problem.name + "_" + algorithm.name + ".txt"
                 
                 # Decision Data
-                dbt = open(DATA_PREFIX + DECISION_BIN_TABLE + "_" + problem.name + "_" + algorithm.name + DATA_SUFFIX, 'w')
-                sr = open(DATA_PREFIX + SUMMARY_RESULTS + problem.name + "_" + algorithm.name + DATA_SUFFIX, 'w')
-                rrs = open(DATA_PREFIX + RRS_TABLE + "_" + problem.name + "_" + algorithm.name + DATA_SUFFIX, 'w')
+                filename = problem.name + "-p" + str(MU) + "-d" + str(len(problem.decisions)) + "-o" + str(len(problem.objectives))+"_"+algorithm.name+DATA_SUFFIX
+                dbt = open(DATA_PREFIX + DECISION_BIN_TABLE + "_" + filename, 'w')
+                sr = open(DATA_PREFIX + SUMMARY_RESULTS + filename, 'w')
+                rrs = open(DATA_PREFIX + RRS_TABLE + "_" + filename, 'w')
                 
                 
                 # Results Record:
@@ -100,7 +101,7 @@ class JMOO:
                 # - Number of Evaluations + Aggregated Objective Score
                 # - 
                 
-                fa = open("data/results_"+problem.name+"_"+algorithm.name+".datatable", 'w')
+                fa = open("data/results_"+filename, 'w')
                 strings = ["NumEval"] + [obj.name + "_median,(%chg)," + obj.name + "_spread" for obj in problem.objectives] + ["IBD,(%chg), IBS"]
                 for s in strings: fa.write(s + ",")
                 fa.write("\n")
@@ -167,10 +168,11 @@ class JMOO:
                     #output every generation
                     for box in [representative]:
                         s_out = ""
-                        s_out += problem.name + ","
+                        s_out += str(MU) + ","
+                        s_out += problem.name + "-p" + str(MU) + "-d"  + str(len(problem.decisions)) + "-o" + str(len(problem.objectives)) + ","
                         s_out += algorithm.name + ","
                         s_out += str(box.numEval) + ","
-                        for low in statBox.bests_actuals:
+                        for low in representative.fitnessMedians:
                             s_out += str("%10.2f" % low) + ","
                         s_out += str("%10.2f" % box.IBD) + "," + str("%10.2f" % box.IBS) + "," + str((end-start))
                         sr.write(s_out + "\n")
