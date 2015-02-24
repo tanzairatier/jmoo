@@ -40,9 +40,12 @@ algorithms = [
               
               jmoo_NSGAII(),
               jmoo_GALE(),
-              jmoo_SPEA2()
+              #jmoo_SPEA2()
               
               ]
+
+problems = [srinivas(), fonseca(3)]
+
 """
 problems =[ivy14(), ivy20(), jedit40(), jedit41(), jedit42(), jedit43(), 
            lucene22(), lucene24(), poi20(), poi25(), poi30(),
@@ -53,20 +56,7 @@ problems =[ivy14(), ivy20(), jedit40(), jedit41(), jedit42(), jedit43(),
 #problems = [poi20(), poi25(), poi30(), synapse11()]
 #problems = [synapse12(), velocity15(), velocity16(), xalan25()]
 #problems = [xalan26(), xalan27(), xalan27(), xalan27()]
-problems = [ant14()]
-
-
-[ant14(), ant15(), ant16(), ant17(),
-camel12(), camel14(), camel16(),
-forrest07(), forrest08(),
-ivy14(), ivy20(),
-jedit40(), jedit41(), jedit42(), jedit43(),
-lucene22(), lucene24(),
-poi20(), poi25(), poi30(),
-synapse11(), synapse12(),
-velocity15(), velocity16(),
-xalan25(), xalan26(), xalan27(),
-xerces12(), xerces13(), xerces14()]
+#problems = [ant14()]
     
 #[POM3A(), POM3B(), POM3C(), XOMO_flight(), XOMO_osp2(), XOMO_ground(), srinivas(), schaffer(), osyczka2(), water(), bnh(), twobartruss(), viennet2(), dtlz2(5,20)]
 """
